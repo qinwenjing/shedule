@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd"
+       default-lazy-init="false"
+>
+
+    <context:annotation-config />
+    <context:component-scan base-package="quartz" />
+    <bean name="job1" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="quartz.Job1"/>
+
+        <!--jobDataAsMap属性即该任务类中需要注入的属性值-->
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="timeout" value="0"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id = "cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="job1"/>
+        <property name="cronExpression" value="*/5 * * * * ?"/>
+    </bean>
+
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="job1" />
+        <property name="startDelay" value="0" /><!-- 调度工厂实例化后，经过0秒开始执行调度 -->
+        <property name="repeatInterval" value="10000" /><!-- 每2秒调度一次 -->
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

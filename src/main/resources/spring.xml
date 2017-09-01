@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd"
+       default-lazy-init="false"
+>
+
+    <context:annotation-config />
+    <context:component-scan base-package="com" />
+
+    <!--下面的正常-->
+    <!--<bean id="myTask" class="com.MyTask"></bean>
+    <task:scheduled-tasks>
+        &lt;!&ndash; 这里表示的是每隔五秒执行一次 &ndash;&gt;
+        <task:scheduled ref="myTask" method="show" cron="*/5 * * * * ?" />
+        <task:scheduled ref="myTask" method="print" cron="*/10 * * * * ?"/>
+    </task:scheduled-tasks>
+-->
+
+
+   <!-- <task:annotation-driven executor="myExecutor" scheduler="myScheduler" />
+    <task:executor id="myExecutor" pool-size="5" />
+    <task:scheduler id="myScheduler" pool-size="10" />-->
+
+
+    <!--&lt;!&ndash;配置定时任务&ndash;&gt;
+    <task:executor id="demoTask" pool-size="5"/>
+    &lt;!&ndash;配置线程池&ndash;&gt;
+    <task:scheduler id="scheduler" pool-size="10"/>
+    <task:annotation-driven executor="demoTask" scheduler="scheduler"/>-->
+
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+    <task:scheduler id="qbScheduler" pool-size="10"/>
+
+    <!--
+    <context:annotation-config/>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+
+
+</beans>
