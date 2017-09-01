@@ -56,4 +56,5 @@ public class DemoTask {
         long end = System.currentTimeMillis();
         logger.info("定时任务demo3结束，共耗时：[" + (end-begin)+ "]毫秒");
     }
+
 }
